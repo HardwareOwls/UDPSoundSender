@@ -29,6 +29,7 @@
 //#include <pstream.h>
 //#include <iterator>
 
+
 int result = 0;
 int sock = socket(AF_INET, SOCK_DGRAM, 0);
 char szIP[100];
