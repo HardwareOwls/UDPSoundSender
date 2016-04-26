@@ -76,7 +76,7 @@ int main()
 	socklen_t m = sizeof(serv);
 
 	// Begynder optagelse på standard-input
-	//FILE *handle = popen("arecord -D plughw:1,0 -B 1 -fs16_LE -c1 -r 44100", "r"); //PI 3
+	//FILE *handle = popen("arecord -D plughw:1,0 -B 1 -fs16_LE -c1 -r 44100", "r"); // PI 3
 	FILE *handle = popen("arecord -B 4 -fs16_LE -c1 -r 44100", "r"); // PI 2
 	// Hvis optagelse ikke startede: halt and catch fire
 	if (handle == NULL) 
