@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <thread> 
+//#include <thread> 
 #include <time.h>
 #include <iostream>
 #include <string.h>
@@ -17,7 +17,7 @@ int IP1, IP2, IP3, IP4;
 char ip1[3], ip2[3], ip3[3], ip4[3];
 char SERVER[16];
 // Max length of buffer
-#define BUFLEN 256
+#define BUFLEN 8
 // Porten der sendes på
 int PORT;
 // Om den fulde IP skal indtastes eller ej
@@ -76,7 +76,8 @@ int main()
 	socklen_t m = sizeof(serv);
 
 	// Begynder optagelse på standard-input
-	FILE *handle = popen("arecord -f S16_LE -c1 -r 44100", "r");
+	//FILE *handle = popen("arecord -D plughw:1,0 -B 1 -fs16_LE -c1 -r 44100", "r"); // PI 3
+	FILE *handle = popen("arecord -B 4 -fs16_LE -c1 -r 44100", "r"); // PI 2
 	// Hvis optagelse ikke startede: halt and catch fire
 	if (handle == NULL) 
 	{
@@ -89,23 +90,23 @@ int main()
 	int i = 0;
 
 	// Lokal kopi af optagelsen
-	FILE * pFile;
-	pFile = fopen ("myfile.wav", "wb");
+	//FILE * pFile;
+	//pFile = fopen ("myfile.wav", "wb");
 
 	// Optager og sender
 	while ((readn = fread(buf, 1, sizeof(buf), handle)) > 0)
 	{
 		// Gemmer lokalt
-		if(localRecord)
-			fwrite(buf, 1, readn, pFile);
+		//if(localRecord)
+		//	fwrite(buf, 1, readn, pFile);
 		// Sender til server
 		sendto(sockfd,buf,sizeof(buf),0,(struct sockaddr *)&serv,m);
 		i++;
 	}
 
 	// Afslutter wav-headeren
-	std::cout << "Gemmer fil \n";
-	fclose (pFile);
+	//std::cout << "Gemmer fil \n";
+	//fclose (pFile);
 
 	// Lukker optagelse på standard-input
 	std::cout << "Lukker lyd sampleren \n";
